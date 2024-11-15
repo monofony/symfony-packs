@@ -1,4 +1,4 @@
-name: Application
+name: CQRS Pack
 
 on:
     push:
@@ -20,7 +20,7 @@ jobs:
     cqrs-pack:
         runs-on: ubuntu-latest
 
-        name: "CQRC pack (PHP ${{ matrix.php }})"
+        name: "Tests (PHP ${{ matrix.php }})"
 
         strategy:
             fail-fast: false
@@ -28,11 +28,9 @@ jobs:
                 php: ["8.3"]
 
         steps:
-            -
-                uses: actions/checkout@v4
+            -   uses: actions/checkout@v4
 
-            -
-                name: Setup PHP
+            -   name: "Setup PHP"
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: "${{ matrix.php }}"
@@ -41,18 +39,32 @@ jobs:
                     tools: symfony
                     coverage: none
 
-            -
-                name: Create test application
+            -   name: "Get Composer cache directory"
+                id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+            -   name: "Setup cache"
+                uses: actions/cache@v3
+                with:
+                    path: |
+                        ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ github.run_id }}-${{ runner.os }}-${{ hashFiles('composer.json') }}-symfony-${{ matrix.symfony }}
+
+            -   name: "Install dependencies"
+                run: (cd src/Cqrs && composer update --no-interaction --no-scripts)
+
+            -   name: "Validate composer.json"
+                run: (cd src/Cqrs && composer validate --strict --no-check-version)
+
+            -   name: "Create test application"
                 run: |
                     git config --global user.email "you@example.com"
                     git config --global user.name "Your Name"
                     (cd src/Cqrs && make create-test-application)
                 id: end-of-setup
 
-            -
-                name: Validate composer.json
+            -   name: "Validate composer.json"
                 run: (cd src/Cqrs && composer validate --strict)
 
-            -
-                name: Run PHPUnit
-                run: (cd src/Cqrs/tests/app && vendor/bin/phpunit)
+            -   name: "Run PHPUnit"
+                run: (cd src/Cqrs && vendor/bin/phpunit)
