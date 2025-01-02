@@ -54,7 +54,9 @@ jobs:
                 run: (cd src/Cqrs && composer validate --no-check-version)
 
             -   name: "Install dependencies"
-                run: (cd src/Cqrs && composer update --no-interaction --no-scripts)
+                run: | 
+                    (cd src/Cqrs && composer update --no-interaction --no-scripts)
+                    (cd src/Cqrs && composer require --dev phpunit/phpunit)
 
             -   name: "Create test application"
                 run: |
