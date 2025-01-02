@@ -1,0 +1,13 @@
+{
+    "manifests": {
+        "monofony/cqrs-pack": {
+            "manifest": {
+                "copy-from-recipe": {
+                    "config/": "%CONFIG_DIR%/",
+                    "src/": "%SRC_DIR%/"
+                }
+            },
+            "ref": "a64c53f4ae7fe6007bbc72beecd8174615f5c890"
+        }
+    }
+}
