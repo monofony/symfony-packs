@@ -1,0 +1,35 @@
+name: Split Packages
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'src/**'
+        tags:
+            - '*'
+    workflow_dispatch: ~
+
+jobs:
+    split_monorepo:
+        name: "Split packages"
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                package:
+                    - { name: 'Cqrs' }
+        steps:
+            -   uses: actions/checkout@v3
+                with:
+                    fetch-depth: 0
+
+            -   name: Split of ${{ matrix.package.name }}
+                uses: alphpaca/monoplus-split-action@2022.1-beta3
+                with:
+                    package_path: 'src/${{ matrix.package.name }}'
+                    personal_access_token: ${{ secrets.MONOPLUS_PAT }}
+                    git_username: 'loic425'
+                    git_email: 'lc.fremont@gmail.com'
+                    repository_owner: "monofony"
+                    repository_name: "${{ matrix.package.name }}"

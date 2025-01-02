@@ -1,6 +1,6 @@
 {
-    "name": "akawaka/symfony-packs",
-    "description": "Pack for Symfony projects",
+    "name": "monofony/symfony-packs",
+    "description": "Packs for Symfony projects",
     "type": "project",
     "license": "MIT",
     "require": {
