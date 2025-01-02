@@ -7,8 +7,8 @@
     "branch": "main",
     "is_contrib": true,
     "_links": {
-        "repository": "https://github.com/Monofony/symfony-packs",
-        "origin_template": "{package}:{version}@github.com/Monofony/symfony-packs:main",
-        "recipe_template": "https://api.github.com/repos/Monofony/symfony-packs/contents/{package_dotted}.{version}.json"
+        "repository": "https://github.com/monofony/symfony-packs",
+        "origin_template": "{package}:{version}@github.com/monofony/symfony-packs:main",
+        "recipe_template": "https://api.github.com/repos/monofony/symfony-packs/contents/{package_dotted}.{version}.json"
     }
 }
